@@ -274,7 +274,10 @@ export default function Lab1() {
       <br />
       <a href="https://www.lipsum.com/document">Visit Lipsum Document</a>
       <br />
-      <a id="wd-github" href="https://github.com/your-repository">
+      <a
+        id="wd-github"
+        href="https://github.com/KaichenQu/kanbas-react-web-app"
+      >
         Visit GitHub Repository
       </a>
       <br />
