@@ -6,21 +6,12 @@ export default function Signup() {
       <h2>Sign up</h2>
       <input placeholder="username" className="form-control mb-3" />
 
-      <input
-        placeholder="password"
-        type="password"
-        className="form-control mb-3"
-      />
+      <input placeholder="password" type="password" className="form-control mb-3" />
 
-      <input
-        placeholder="verify password"
-        type="password"
-        className="form-control mb-3"
-      />
+      <input placeholder="verify password" type="password" className="form-control mb-3" />
 
       <Link to="/Kanbas/Account/Profile" className="btn btn-primary w-100">
-        {" "}
-        Sign up{" "}
+        Sign up
       </Link>
 
       <Link to="/Kanbas/Account/Signin">Sign in</Link>
