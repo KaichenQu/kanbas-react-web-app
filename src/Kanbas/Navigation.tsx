@@ -12,6 +12,7 @@ export default function KanbasNavigation() {
     { label: "Calendar", path: "/Kanbas/Calendar", icon: IoCalendarOutline },
     { label: "Inbox", path: "/Kanbas/Inbox", icon: FaInbox },
     { label: "Labs", path: "/Labs", icon: LiaCogSolid },
+    { label: "Landing", path: "/Landing", icon: MdContactPage },
   ];
 
   return (
@@ -35,9 +36,17 @@ export default function KanbasNavigation() {
       <Link
         to="/Kanbas/Account"
         className={`list-group-item text-center border-0 bg-black
-            ${pathname.includes("Account") ? "bg-white text-danger" : "bg-black text-white"}`}
+            ${
+              pathname.includes("Account")
+                ? "bg-white text-danger"
+                : "bg-black text-white"
+            }`}
       >
-        <FaRegCircleUser className={`fs-1 ${pathname.includes("Account") ? "text-danger" : "text-white"}`} />
+        <FaRegCircleUser
+          className={`fs-1 ${
+            pathname.includes("Account") ? "text-danger" : "text-white"
+          }`}
+        />
         <br />
         Account
       </Link>
@@ -46,7 +55,11 @@ export default function KanbasNavigation() {
           key={link.path} // each link must have a unique key
           to={link.path}
           className={`list-group-item bg-black text-center border-0
-              ${pathname.includes(link.label) ? "text-danger bg-white" : "text-white bg-black"}`}
+              ${
+                pathname.includes(link.label)
+                  ? "text-danger bg-white"
+                  : "text-white bg-black"
+              }`}
         >
           {link.icon({ className: "fs-1 text-danger" })}
           <br />

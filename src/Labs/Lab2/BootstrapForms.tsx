@@ -104,7 +104,7 @@ export default function BootstrapForms() {
         <h3>Responsive forms</h3>
         <div className="mb-3 row">
           <label htmlFor="email1" className="col-sm-2 col-form-label">
-            Email{" "}
+            Email
           </label>
           <div className="col-sm-10">
             <input
@@ -113,19 +113,19 @@ export default function BootstrapForms() {
               id="email1"
               value="email@example.com"
             />
-          </div>{" "}
+          </div>
         </div>
         <div className="mb-3 row">
           <label htmlFor="password1" className="col-sm-2 col-form-label">
-            Password{" "}
+            Password
           </label>
           <div className="col-sm-10">
             <input type="password" id="password1" className="form-control" />
-          </div>{" "}
+          </div>
         </div>
         <div className="mb-3 row">
           <label htmlFor="textarea2" className="col-sm-2 col-form-label">
-            Bio{" "}
+            Bio
           </label>
           <div className="col-sm-10">
             <textarea
@@ -141,15 +141,15 @@ export default function BootstrapForms() {
         <form>
           <div className="row mb-3">
             <label htmlFor="r1" className="col-sm-2 col-form-label">
-              Email{" "}
+              Email
             </label>
             <div className="col-sm-10">
               <input type="email" className="form-control" id="r1" />
-            </div>{" "}
+            </div>
           </div>
           <div className="row mb-3">
             <label htmlFor="r2" className="col-sm-2 col-form-label">
-              Password{" "}
+              Password
             </label>
             <div className="col-sm-10">
               <input type="password" className="form-control" id="r2" />
@@ -168,8 +168,8 @@ export default function BootstrapForms() {
                   checked
                 />
                 <label className="form-check-label" htmlFor="r3">
-                  First radio{" "}
-                </label>{" "}
+                  First radio
+                </label>
               </div>
               <div className="form-check">
                 <input
@@ -180,8 +180,8 @@ export default function BootstrapForms() {
                   value="option2"
                 />
                 <label className="form-check-label" htmlFor="r4">
-                  Second radio{" "}
-                </label>{" "}
+                  Second radio
+                </label>
               </div>
               <div className="form-check disabled">
                 <input
@@ -193,8 +193,8 @@ export default function BootstrapForms() {
                   disabled
                 />
                 <label className="form-check-label" htmlFor="r5">
-                  Third disabled radio{" "}
-                </label>{" "}
+                  Third disabled radio
+                </label>
               </div>
             </div>
           </fieldset>
@@ -203,13 +203,13 @@ export default function BootstrapForms() {
               <div className="form-check">
                 <input className="form-check-input" type="checkbox" id="r6" />
                 <label className="form-check-label" htmlFor="r6">
-                  Example checkbox{" "}
-                </label>{" "}
-              </div>{" "}
+                  Example checkbox
+                </label>
+              </div>
             </div>
           </div>
           <button type="submit" className="btn btn-primary">
-            Sign in{" "}
+            Sign in
           </button>
         </form>
       </div>

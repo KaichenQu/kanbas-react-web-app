@@ -17,16 +17,14 @@ export default function TodoForm() {
         id="wd-update-todo-click"
         className="btn btn-warning ms-2"
       >
-        {" "}
-        Update{" "}
+        Update
       </button>
       <button
         onClick={() => dispatch(addTodo(todo))}
         id="wd-add-todo-click"
         className="btn btn-success ms-2"
       >
-        {" "}
-        Add{" "}
+        Add
       </button>
     </li>
   );
