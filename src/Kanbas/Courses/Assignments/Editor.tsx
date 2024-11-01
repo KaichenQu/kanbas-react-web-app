@@ -109,7 +109,7 @@ export default function AssignmentEditor() {
           {currentUser.role === "FACULTY" ? (
             <>
               <label htmlFor="wd-points" className="col-sm-2 col-form-label">
-                Points
+                Point
               </label>
               <div className="col-sm-10">
                 <input
@@ -129,6 +129,110 @@ export default function AssignmentEditor() {
               <hr />
             </div>
           )}
+        </div>
+
+        <div className="form-group row ms-5 mb-4">
+          <label htmlFor="wd-group" className="col-form-label col-sm-2">
+            Assignment Group
+          </label>
+          <div className="col-sm-10">
+            <select id="wd-group" className="form-select">
+              <option value="groupAssignment">ASSIGNMENT</option>
+              <option value="groupQuizzes">QUIZZES</option>
+              <option value="groupExam">EXAM</option>
+              <option value="groupProject">PROJECT</option>
+            </select>
+          </div>
+        </div>
+        <div className="form-group row ms-5 mb-4">
+          <label
+            htmlFor="wd-display-grade-as"
+            className="col-form-label col-sm-2"
+          >
+            Display Grade as
+          </label>
+          <div className="col-sm-10">
+            <select id="wd-display-grade-as" className="form-select">
+              <option value="displayPercent">Percentage</option>
+              <option value="displayLetter">Letter</option>
+              <option value="displayGPA">GPA</option>
+            </select>
+          </div>
+        </div>
+        <div className="form-group row ms-5 mb-4">
+          <label
+            htmlFor="wd-submission-type"
+            className="col-form-label col-sm-2"
+          >
+            Submission Type
+          </label>
+          <div className="col-sm-10">
+            <select id="wd-submission-type" className="form-select">
+              <option value="Online">Online</option>
+              <option value="On Paper">On Paper</option>
+            </select>
+            <div className="mt-3">
+              <label>
+                <strong>Online Entry Options</strong>
+              </label>
+              <div className="form-check">
+                <input
+                  type="checkbox"
+                  id="wd-text-entry"
+                  className="form-check-input"
+                />
+                <label htmlFor="wd-text-entry" className="form-check-label">
+                  Text Entry
+                </label>
+              </div>
+              <div className="form-check">
+                <input
+                  type="checkbox"
+                  id="wd-website-url"
+                  className="form-check-input"
+                />
+                <label htmlFor="wd-website-url" className="form-check-label">
+                  Website URL
+                </label>
+              </div>
+              <div className="form-check">
+                <input
+                  type="checkbox"
+                  id="wd-media-recordings"
+                  className="form-check-input"
+                />
+                <label
+                  htmlFor="wd-media-recordings"
+                  className="form-check-label"
+                >
+                  Media Recordings
+                </label>
+              </div>
+              <div className="form-check">
+                <input
+                  type="checkbox"
+                  id="wd-student-annotation"
+                  className="form-check-input"
+                />
+                <label
+                  htmlFor="wd-student-annotation"
+                  className="form-check-label"
+                >
+                  Student Annotation
+                </label>
+              </div>
+              <div className="form-check">
+                <input
+                  type="checkbox"
+                  id="wd-file-upload"
+                  className="form-check-input"
+                />
+                <label htmlFor="wd-file-upload" className="form-check-label">
+                  File Upload
+                </label>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="form-group row ms-5 mb-4">
