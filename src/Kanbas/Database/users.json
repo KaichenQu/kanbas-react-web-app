@@ -110,5 +110,19 @@
     "section": "S101",
     "lastActivity": "2020-11-11",
     "totalActivity": "21:32:43"
+  },
+  {
+    "_id": "000",
+    "username": "test",
+    "password": " ",
+    "firstName": "est",
+    "lastName": "t",
+    "email": "test@test.com",
+    "dob": "2000-01-01",
+    "role": "FACULTY",
+    "loginId": "001234560S",
+    "section": "S101",
+    "lastActivity": "2020-11-11",
+    "totalActivity": "21:32:43"
   }
 ]

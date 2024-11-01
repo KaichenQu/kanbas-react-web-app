@@ -1,5 +1,4 @@
 import { useParams } from "react-router";
-import * as db from "../../Database";
 import ModulesControls from "./ModulesControls";
 import LessonControlButtons from "./LessonControlButtons";
 import ModuleControlButtons from "./ModuleControlButtons";
