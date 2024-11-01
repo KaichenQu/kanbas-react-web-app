@@ -1,165 +1,264 @@
-import { useParams, Link } from "react-router-dom";
-import * as db from "../../Database";
+import { SlCalender } from "react-icons/sl";
+import { Link, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import {
+  updateAssignment,
+  switchCreationStatus,
+  deleteAssignment,
+} from "./reducer";
 
 export default function AssignmentEditor() {
   const { cid, aid } = useParams();
-  const assignment = db.assignments.find((assignment) => assignment._id === aid);
-  if (!assignment) {
-    return <div>Assignment not found</div>;
-  }
+  const { assignments, new_assignment_created } = useSelector(
+    (state: any) => state.assignmentsReducer
+  );
+  const assignment = assignments.find(
+    (assignment: any) => assignment._id === aid
+  );
+  const dispatch = useDispatch();
+
+  const [title, setTitle] = useState(assignment && assignment.title);
+  const [description, setDescription] = useState(
+    assignment && assignment.description
+  );
+  const [points, setPoints] = useState(assignment && assignment.points);
+  const [due, setDue] = useState(assignment && assignment.due);
+  const [availableFrom, setAvailableFrom] = useState(
+    assignment && assignment.availableFrom
+  );
+  const [until, setUntil] = useState(assignment && assignment.until);
+
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
+
+  const cancelByStatus = () => {
+    if (new_assignment_created === true) {
+      dispatch(deleteAssignment(aid));
+      dispatch(switchCreationStatus());
+    }
+  };
+
+  const saveByStatus = () => {
+    const currentAssignment = {
+      _id: aid,
+      title: title,
+      course: cid,
+      description: description,
+      points: points,
+      due: due,
+      availableFrom: availableFrom,
+      until: until,
+    };
+
+    if (new_assignment_created === true) {
+      dispatch(switchCreationStatus());
+    }
+    dispatch(updateAssignment(currentAssignment));
+  };
 
   return (
-    <div id="wd-assignments-editor" className="container mt-4">
-      <div className="mb-3">
-        <label htmlFor="wd-name">
-          <strong>Assignment Name</strong>
-        </label>
-
-        <input id="wd-name" className="form-control mt-2" defaultValue={assignment.title} />
-      </div>
-
-      <div className="mb-3">
-        <label htmlFor="wd-description">
-          <strong>Description</strong>
-        </label>
-        <textarea id="wd-description" className="form-control mt-2" cols={50} rows={5}>
-          The assignment is available online Submit a link to the landing page of...
-        </textarea>
-      </div>
-
-      <table className="table">
-        <tr>
-          <td align="right" valign="top">
-            <label htmlFor="wd-points">Points</label>
-          </td>
-          <td>
-            <input id="wd-points" value={100} className="form-control" />
-          </td>
-        </tr>
-        <tr>
-          <td align="right" valign="top">
-            <label htmlFor="wd-group">Assignment Group</label>
-          </td>
-          <td>
-            <select id="wd-group" className="form-select">
-              <option value="groupAssignment">ASSIGNMENT</option>
-              <option value="groupQuizzes">QUIZZES</option>
-              <option value="groupExam">EXAM</option>
-              <option value="groupProject">PROJECT</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <td align="right" valign="top">
-            <label htmlFor="wd-display-grade-as">Display Grade as</label>
-          </td>
-          <td>
-            <select id="wd-display-grade-as" className="form-select">
-              <option value="displayPercent">Percentage</option>
-              <option value="displayLetter">Letter</option>
-              <option value="displayGPA">GPA</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <td align="right" valign="top">
-            <label htmlFor="wd-submission-type">Submission Type</label>
-          </td>
-          <td>
-            <select id="wd-submission-type" className="form-select">
-              <option value="Online">Online</option>
-              <option value="On Paper">On Paper</option>
-            </select>
-            <div className="mt-3">
-              <label>
-                <strong>Online Entry Options</strong>
+    <div id="wd-assignments-editor">
+      <form>
+        <div className="form-group row ms-5 mb-4">
+          {currentUser.role === "FACULTY" ? (
+            <>
+              <label htmlFor="wd-name" className="col-form-label">
+                <strong>Assignment Name </strong>
               </label>
-              <div className="form-check">
-                <input type="checkbox" id="wd-text-entry" className="form-check-input" />
-                <label htmlFor="wd-text-entry" className="form-check-label">
-                  Text Entry
-                </label>
-              </div>
-              <div className="form-check">
-                <input type="checkbox" id="wd-website-url" className="form-check-input" />
-                <label htmlFor="wd-website-url" className="form-check-label">
-                  Website URL
-                </label>
-              </div>
-              <div className="form-check">
-                <input type="checkbox" id="wd-media-recordings" className="form-check-input" />
-                <label htmlFor="wd-media-recordings" className="form-check-label">
-                  Media Recordings
-                </label>
-              </div>
-              <div className="form-check">
-                <input type="checkbox" id="wd-student-annotation" className="form-check-input" />
-                <label htmlFor="wd-student-annotation" className="form-check-label">
-                  Student Annotation
-                </label>
-              </div>
-              <div className="form-check">
-                <input type="checkbox" id="wd-file-upload" className="form-check-input" />
-                <label htmlFor="wd-file-upload" className="form-check-label">
-                  File Upload
-                </label>
-              </div>
+              <input
+                id="wd-name"
+                className="form-control ms-2 mt-3 w-75"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            </>
+          ) : (
+            <div>
+              <label htmlFor="wd-name" className="col-form-label">
+                <strong>Assignment Name</strong>
+              </label>
+              <p>{title}</p>
+              <hr />
             </div>
-          </td>
-        </tr>
+          )}
+        </div>
 
-        <tr>
-          <td align="right" valign="top">
-            <label htmlFor="wd-assign-to">Assign</label>
-          </td>
-          <td>
-            <label htmlFor="wd-assign-to"> Assign to</label>
-            <br />
-            <input id="wd-assign-to" value="Everyone" className="form-control mt-1" />
-          </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>
-            Due <br />
-            <input
-              type="date"
-              id="wd-due-date"
-              className="form-control mt-1"
-              name="wd-due-date"
-              defaultValue="2024-05-13"
-            />
-          </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>
-            <div className="d-flex">
-              <div className="me-2">
-                <label htmlFor="wd-available-from">
-                  <strong>Available From</strong>
-                </label>
-                <input type="date" id="wd-available-from" className="form-control mt-1" defaultValue="2024-05-06" />
+        <div className="form-group row ms-5 mb-4">
+          {currentUser.role === "FACULTY" ? (
+            <>
+              <textarea
+                id="wd-description"
+                className="form-control ms-2 w-75"
+                aria-label="With textarea"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              ></textarea>
+            </>
+          ) : (
+            <div>
+              <label htmlFor="wd-name" className="col-form-label">
+                <strong>Description</strong>
+              </label>
+              <p>{description}</p>
+              <hr />
+            </div>
+          )}
+        </div>
+
+        <div className="form-group row ms-5 mb-4">
+          {currentUser.role === "FACULTY" ? (
+            <>
+              <label htmlFor="wd-points" className="col-sm-2 col-form-label">
+                Points
+              </label>
+              <div className="col-sm-10">
+                <input
+                  id="wd-points"
+                  className="form-control w-75"
+                  value={points}
+                  onChange={(e) => setPoints(e.target.value)}
+                />
+              </div>
+            </>
+          ) : (
+            <div>
+              <label htmlFor="wd-name" className="col-form-label">
+                <strong>Points</strong>
+                <span className="ms-4">{points}</span>{" "}
+              </label>
+              <hr />
+            </div>
+          )}
+        </div>
+
+        <div className="form-group row ms-5 mb-4">
+          {currentUser.role === "FACULTY" ? (
+            <>
+              <label className="col-sm-2 col-form-label">Assign</label>
+              <div className="col-sm-10 form-control ms-2 p-3 w-75">
+                <div className="form-group ms-1">
+                  <label htmlFor="wd-due-date" className="col-form-label">
+                    <strong>Due</strong>
+                  </label>
+                  <div className="input-group mt-1">
+                    <input
+                      type="input"
+                      id="wd-due-date"
+                      className="form-control"
+                      value={due}
+                      onChange={(e) => setDue(e.target.value)}
+                    />
+
+                    <span className="input-group-text">
+                      <SlCalender className="fs-4" />
+                    </span>
+                  </div>
+
+                  <div className="row">
+                    <div className="col-6">
+                      <label
+                        htmlFor="wd-available-from"
+                        className="col-form-label mt-3"
+                      >
+                        <strong>Available from</strong>
+                      </label>
+                      <div className="input-group mt-1">
+                        <input
+                          type="input"
+                          id="wd-available-from"
+                          className="form-control"
+                          value={availableFrom}
+                          onChange={(e) => setAvailableFrom(e.target.value)}
+                        />
+                        <span className="input-group-text">
+                          <SlCalender className="fs-4" />
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="col-6">
+                      <label
+                        htmlFor="wd-available-until"
+                        className="col-form-label mt-3"
+                      >
+                        <strong>Until</strong>
+                      </label>
+                      <div className="input-group mt-1">
+                        <input
+                          type="input"
+                          id="wd-available-until"
+                          className="form-control"
+                          value={until}
+                          onChange={(e) => setUntil(e.target.value)}
+                        />
+                        <span className="input-group-text">
+                          <SlCalender className="fs-4" />
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div>
-                <label htmlFor="wd-available-until">
-                  <strong>Until</strong>
-                </label>
-                <input type="date" id="wd-available-until" className="form-control mt-1" defaultValue="2024-05-28" />
+                <hr />
               </div>
+            </>
+          ) : (
+            <div>
+              <label htmlFor="wd-name" className="col-form-label">
+                <strong>Available From</strong>
+                <span className="ms-4">{availableFrom}</span>{" "}
+              </label>
+              <br />
+              <label htmlFor="wd-name" className="col-form-label">
+                <strong>Due</strong>
+                <span className="ms-4">{due}</span>{" "}
+              </label>
+              <br />
+              <label htmlFor="wd-name" className="col-form-label">
+                <strong>Until</strong>
+                <span className="ms-4">{until}</span>{" "}
+              </label>
+              <hr />
             </div>
-          </td>
-        </tr>
-      </table>
-      <hr style={{ width: "100%" }} />
+          )}
+        </div>
+      </form>
 
-      <div className="d-flex justify-content-end">
-        <Link to={`/Kanbas/Courses/${cid}/Assignments`} className="btn btn-secondary me-2">
-          Cancel
-        </Link>
-        <Link to={`/Kanbas/Courses/${cid}/Assignments`} className="btn btn-danger">
-          Save
-        </Link>
+      <div className="float-end">
+        {currentUser.role === "FACULTY" ? (
+          <div>
+            <Link
+              to={`/Kanbas/Courses/${cid}/Assignments`}
+              className="btn btn-light border me-2"
+              onClick={cancelByStatus}
+            >
+              Cancel
+            </Link>
+            <Link
+              to={`/Kanbas/Courses/${cid}/Assignments`}
+              className="btn btn-danger border"
+              onClick={saveByStatus}
+            >
+              Save
+            </Link>
+          </div>
+        ) : (
+          <div>
+            <Link
+              to={`/Kanbas/Courses/${cid}/Assignments`}
+              className="btn btn-light border me-2"
+            >
+              Go Back
+            </Link>
+            <Link
+              to={`/Kanbas/Courses/${cid}/Assignments`}
+              className="btn btn-danger border"
+            >
+              Attempt
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );

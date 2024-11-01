@@ -1,75 +1,74 @@
-import { FaSearch, FaPlus } from "react-icons/fa";
-import { BsGripVertical, BsThreeDotsVertical } from "react-icons/bs";
-import { MdCheckCircle, MdOutlineDocumentScanner } from "react-icons/md";
-import { useParams } from "react-router-dom";
-import * as db from "../../Database";
+import AssignmentControls from "./AssignmentControls";
+import AssignmentControlButtons from "./AssignmentControlButtons";
+import AssignmentsControlButtons from "./AssignmentsControlButtons";
+import { BsGripVertical } from "react-icons/bs";
+import { MdOutlineDocumentScanner } from "react-icons/md";
+import { Link, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function Assignments() {
   const { cid } = useParams();
-  const assignments = db.assignments.filter((assignment) => assignment.course === cid);
+  const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
 
   return (
-    <div id="wd-assignments-container" className="container mt-4">
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <div className="input-group" style={{ width: "50%" }}>
-          <span className="input-group-text">
-            <FaSearch />
-          </span>
-          <input id="wd-search-assignment" className="form-control" placeholder="Search for Assignments" />
-        </div>
+    <div id="wd-assignments" className="container mt-4">
+      {currentUser.role === "FACULTY" && (
         <div>
-          <button id="wd-add-assignment-group" className="btn btn-outline-primary me-2">
-            <FaPlus /> Group
-          </button>
-          <button id="wd-add-assignment" className="btn btn-danger">
-            <FaPlus /> Assignment
-          </button>
+          <AssignmentControls />
         </div>
-      </div>
-
-      <div id="wd-assignments-title" className="list-group rounded-0">
+      )}
+      <ul id="wd-assignments" className="list-group rounded-0 ms-4 me-3 mt-4">
         <div className="wd-title p-3 ps-2 bg-secondary d-flex justify-content-between align-items-center">
           <div className="d-flex align-items-center">
-            <BsGripVertical className="me-2 fs-3" />
-            <h3 id="wd-assignments-title" className="mb-0">
-              ASSIGNMENTS
-            </h3>
+            <BsGripVertical className="fs-3 me-2" />
+            <strong>ASSIGNMENTS</strong>
           </div>
-          <div className="d-flex align-items-center">
-            <span className="text-muted me-3 border rounded-pill border-light-subtle">40% of Total</span>
-            <button className="btn btn-outline-secondary">
-              <FaPlus />
-            </button>
-          </div>
-        </div>
-      </div>
 
-      <ul id="wd-assignment-list" className="list-group">
-        {assignments.map((assignment) => (
-          <li
-            key={assignment._id}
-            className="wd-assignment-list-item list-group-item d-flex justify-content-between align-items-center p-3"
-            style={{ borderLeft: "4px solid green" }}
-          >
+          {currentUser.role === "FACULTY" && (
             <div className="d-flex align-items-center">
-              <BsGripVertical className="me-2 fs-3" />
-              <MdOutlineDocumentScanner className="me-2 fs-2" />
-              <div>
-                <a
-                  className="wd-assignment-link h5 mb-1"
-                  href={`#/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
-                >
-                  {assignment.title}
-                </a>
-                <p className="text-muted mb-0">Multiple Modules | 100 pts</p>
-              </div>
+              <AssignmentsControlButtons />
             </div>
-            <div className="d-flex align-items-center">
-              <MdCheckCircle className="text-success fs-4 me-3" />
-              <BsThreeDotsVertical className="fs-4" />
-            </div>
-          </li>
-        ))}
+          )}
+        </div>
+
+        {assignments
+          .filter((assignment: any) => assignment.course === cid)
+          .map((assignment: any) => (
+            <ul className="wd-assignments list-group rounded-0">
+              <li className="wd-assignments list-group-item ps-1 fs-5 border-gray">
+                <div className="d-flex align-items-center">
+                  <BsGripVertical className="me-2 fs-2" />
+                  <MdOutlineDocumentScanner className="fs-2" />
+                  <div className="mt-2 mb-2 flex-grow-1">
+                    <Link
+                      to={`/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
+                      className="text-black text-decoration-none"
+                    >
+                      <ul>
+                        <strong>{assignment.title}</strong>
+                      </ul>
+                    </Link>
+                    <ul className="wd-assignment-description">
+                      <span className="text-danger">Multiple Modules </span>|{" "}
+                      <strong> Not Available until</strong>{" "}
+                      {assignment.availableFrom} at 12:00am |{" "}
+                    </ul>
+                    <ul className="wd-assignment-description">
+                      {" "}
+                      <strong>Due </strong> {assignment.due} at 11:59pm |&nbsp;
+                      {assignment.points} pts{" "}
+                    </ul>
+                  </div>
+                  {currentUser.role === "FACULTY" && (
+                    <>
+                      <AssignmentControlButtons assignmentID={assignment._id} />
+                    </>
+                  )}
+                </div>
+              </li>
+            </ul>
+          ))}
       </ul>
     </div>
   );
