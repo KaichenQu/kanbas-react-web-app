@@ -3,6 +3,7 @@ import { enrollments } from "../Database";
 
 const initialState = {
   enrollments: enrollments,
+  showAllCourses: false,
 };
 
 const enrollmentSlice = createSlice({
@@ -30,8 +31,11 @@ const enrollmentSlice = createSlice({
           !(enrollment.user === userId && enrollment.course === courseId)
       );
     },
+    toggleAllCourses: (state) => {
+      state.showAllCourses = !state.showAllCourses;
+    },
   },
 });
 
-export const { enroll, unenroll } = enrollmentSlice.actions;
+export const { enroll, unenroll, toggleAllCourses } = enrollmentSlice.actions;
 export default enrollmentSlice.reducer;

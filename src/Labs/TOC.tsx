@@ -9,23 +9,48 @@ export default function TOC() {
         </a>
       </li>
       <li className="nav-item">
-        <a id="wd-a1" href="#/Labs/Lab1" className={`nav-link ${pathname.includes("Lab1") ? "active" : ""}`}>
+        <a
+          id="wd-a1"
+          href="#/Labs/Lab1"
+          className={`nav-link ${pathname.includes("Lab1") ? "active" : ""}`}
+        >
           Lab 1
         </a>
       </li>
       <li className="nav-item">
-        <a id="wd-a2" href="#/Labs/Lab2" className={`nav-link ${pathname.includes("Lab2") ? "active" : ""}`}>
+        <a
+          id="wd-a2"
+          href="#/Labs/Lab2"
+          className={`nav-link ${pathname.includes("Lab2") ? "active" : ""}`}
+        >
           Lab 2
         </a>
       </li>
       <li className="nav-item">
-        <a id="wd-a3" href="#/Labs/Lab3" className={`nav-link ${pathname.includes("Lab3") ? "active" : ""}`}>
+        <a
+          id="wd-a3"
+          href="#/Labs/Lab3"
+          className={`nav-link ${pathname.includes("Lab3") ? "active" : ""}`}
+        >
           Lab 3
         </a>
       </li>
       <li className="nav-item">
-        <a id="wd-a4" href="#/Labs/Lab4" className={`nav-link ${pathname.includes("Lab4") ? "active" : ""}`}>
+        <a
+          id="wd-a4"
+          href="#/Labs/Lab4"
+          className={`nav-link ${pathname.includes("Lab4") ? "active" : ""}`}
+        >
           Lab 4
+        </a>
+      </li>
+      <li className="nav-item">
+        <a
+          id="wd-a5"
+          href="#/Labs/Lab5"
+          className={`nav-link ${pathname.includes("Lab5") ? "active" : ""}`}
+        >
+          Lab 5
         </a>
       </li>
       <li className="nav-item">
