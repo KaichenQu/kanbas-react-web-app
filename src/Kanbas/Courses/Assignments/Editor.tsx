@@ -7,6 +7,7 @@ import {
   switchCreationStatus,
   deleteAssignment,
 } from "./reducer";
+import * as client from "./client";
 
 export default function AssignmentEditor() {
   const { cid, aid } = useParams();
@@ -31,14 +32,19 @@ export default function AssignmentEditor() {
 
   const { currentUser } = useSelector((state: any) => state.accountReducer);
 
-  const cancelByStatus = () => {
-    if (new_assignment_created === true) {
-      dispatch(deleteAssignment(aid));
-      dispatch(switchCreationStatus());
+  const cancelByStatus = async () => {
+    if (new_assignment_created) {
+      try {
+        await client.deleteAssignment(aid as string);
+        dispatch(deleteAssignment(aid));
+        dispatch(switchCreationStatus());
+      } catch (error) {
+        console.error("Failed to delete assignment:", error);
+      }
     }
   };
 
-  const saveByStatus = () => {
+  const saveByStatus = async () => {
     const currentAssignment = {
       _id: aid,
       title: title,
@@ -50,10 +56,17 @@ export default function AssignmentEditor() {
       until: until,
     };
 
-    if (new_assignment_created === true) {
-      dispatch(switchCreationStatus());
+    try {
+      if (new_assignment_created) {
+        await client.createAssignment(cid as string, currentAssignment);
+        dispatch(switchCreationStatus());
+      } else {
+        await client.updateAssignment(aid as string, currentAssignment);
+      }
+      dispatch(updateAssignment(currentAssignment));
+    } catch (error) {
+      console.error("Failed to save assignment:", error);
     }
-    dispatch(updateAssignment(currentAssignment));
   };
 
   return (

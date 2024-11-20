@@ -4,12 +4,24 @@ import AssignmentsControlButtons from "./AssignmentsControlButtons";
 import { BsGripVertical } from "react-icons/bs";
 import { MdOutlineDocumentScanner } from "react-icons/md";
 import { Link, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setAssignments } from "./reducer";
+import * as client from "./client";
+import { useEffect } from "react";
 
 export default function Assignments() {
   const { cid } = useParams();
   const { assignments } = useSelector((state: any) => state.assignmentsReducer);
   const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchAssignments = async () => {
+      const assignments = await client.findAssignmentsForCourse(cid as string);
+      dispatch(setAssignments(assignments));
+    };
+    fetchAssignments();
+  }, [cid, dispatch]);
 
   return (
     <div id="wd-assignments" className="container mt-4">
