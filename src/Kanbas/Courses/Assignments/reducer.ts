@@ -3,7 +3,14 @@ import * as client from "./client";
 
 interface Assignment {
   _id: string;
-  // add other assignment properties here
+  title: string;
+  course: string;
+  description: string;
+  points: number;
+  due: string;
+  availableFrom: string;
+  availableUntil?: string;
+  until?: string;
 }
 
 const initialState = {

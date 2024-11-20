@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { enroll, unenroll, toggleAllCourses } from "./reducer";
+import * as client from "../Courses/Enrollments/client";
 
 export default function Dashboard({
   courses,
@@ -38,12 +39,22 @@ export default function Dashboard({
     ? courses
     : courses.filter((course) => isEnrolled(course._id));
 
-  const handleEnroll = (courseId: string) => {
-    dispatch(enroll({ userId: currentUser._id, courseId }));
+  const handleEnroll = async (courseId: string) => {
+    try {
+      await client.enrollInCourse(courseId);
+      dispatch(enroll({ userId: currentUser._id, courseId }));
+    } catch (error) {
+      console.error("Failed to enroll:", error);
+    }
   };
 
-  const handleUnenroll = (courseId: string) => {
-    dispatch(unenroll({ userId: currentUser._id, courseId }));
+  const handleUnenroll = async (courseId: string) => {
+    try {
+      await client.unenrollFromCourse(courseId);
+      dispatch(unenroll({ userId: currentUser._id, courseId }));
+    } catch (error) {
+      console.error("Failed to unenroll:", error);
+    }
   };
 
   return (
