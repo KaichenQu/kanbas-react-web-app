@@ -95,6 +95,7 @@ export default function Dashboard({
           <hr />
         </>
       )}
+      {/* Student */}
       {currentUser.role === "STUDENT" && (
         <button
           className="btn btn-primary float-end mb-3"
@@ -119,11 +120,7 @@ export default function Dashboard({
               >
                 <div className="card rounded-3 overflow-hidden">
                   <img
-                    src={
-                      course.image && course.image !== ""
-                        ? course.image
-                        : `${process.env.PUBLIC_URL}/images/${course._id}.png`
-                    }
+                    src={`${process.env.PUBLIC_URL}/images/reactjs.jpg`}
                     height={160}
                     className="card-img-top"
                     alt={course.name}
