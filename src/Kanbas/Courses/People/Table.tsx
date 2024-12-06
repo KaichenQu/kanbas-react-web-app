@@ -1,13 +1,14 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
-import { useParams } from "react-router-dom";
-import * as client from "./client";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router";
+import { Link } from "react-router-dom";
+import * as client from "./client";
+import PeopleDetails from "./Details";
 
-export default function PeopleTable() {
-  const { cid } = useParams();
-  const [users, setUsers] = useState([]);
+export default function PeopleTable({ users = [] }: { users?: any[] }) {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const { cid } = useParams();
   const [newUser, setNewUser] = useState({
     firstName: "",
     lastName: "",
@@ -15,20 +16,10 @@ export default function PeopleTable() {
     role: "STUDENT",
   });
 
-  const fetchUsers = async () => {
-    try {
-      const users = await client.findUsersInCourse(cid as string);
-      setUsers(users);
-    } catch (error) {
-      console.error("Failed to fetch users:", error);
-    }
-  };
-
   const addUser = async () => {
-    if (currentUser.role !== "FACULTY") return;
+    if (!cid || currentUser.role !== "FACULTY") return;
     try {
-      await client.addUserToCourse(cid as string, newUser);
-      fetchUsers();
+      await client.addUserToCourse(cid, newUser);
       setNewUser({ firstName: "", lastName: "", email: "", role: "STUDENT" });
     } catch (error) {
       console.error("Failed to add user:", error);
@@ -36,22 +27,18 @@ export default function PeopleTable() {
   };
 
   const removeUser = async (enrollmentId: string) => {
-    if (currentUser.role !== "FACULTY") return;
+    if (!cid || currentUser.role !== "FACULTY") return;
     try {
-      await client.removeUserFromCourse(cid as string, enrollmentId);
-      fetchUsers();
+      await client.removeUserFromCourse(cid, enrollmentId);
     } catch (error) {
       console.error("Failed to remove user:", error);
     }
   };
 
-  useEffect(() => {
-    fetchUsers();
-  }, [cid]);
-
   return (
     <div id="wd-people-table">
-      {currentUser.role === "FACULTY" && (
+      <PeopleDetails />
+      {cid && currentUser.role === "FACULTY" && (
         <div className="mb-3">
           <h3>Add New User</h3>
           <input
@@ -90,7 +77,6 @@ export default function PeopleTable() {
           </button>
         </div>
       )}
-
       <table className="table table-striped">
         <thead>
           <tr>
@@ -101,12 +87,17 @@ export default function PeopleTable() {
           </tr>
         </thead>
         <tbody>
-          {users.map((user: any) => (
-            <tr key={user.enrollmentId}>
+          {users.map((user) => (
+            <tr key={user._id}>
               <td className="wd-full-name text-nowrap">
-                <FaUserCircle className="me-2 fs-1 text-secondary" />
-                <span className="wd-first-name">{user.firstName}</span>
-                <span className="wd-last-name">{user.lastName}</span>
+                <Link
+                  to={`/Kanbas/Account/Users/${user._id}`}
+                  className="text-decoration-none"
+                >
+                  <FaUserCircle className="me-2 fs-1 text-secondary" />
+                  <span className="wd-first-name">{user.firstName}</span>{" "}
+                  <span className="wd-last-name">{user.lastName}</span>
+                </Link>
               </td>
               <td className="wd-role">{user.role}</td>
               <td className="wd-last-activity">{user.lastActivity}</td>
