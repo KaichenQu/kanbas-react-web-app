@@ -59,3 +59,11 @@ export const findUserById = async (id: string) => {
   const response = await axios.get(`${USERS_API}/${id}`);
   return response.data;
 };
+export const deleteUser = async (userId: string) => {
+  const response = await axiosWithCredentials.delete(`${USERS_API}/${userId}`);
+  return response.data;
+};
+export const createUser = async (user: any) => {
+  const response = await axios.post(`${USERS_API}`, user);
+  return response.data;
+};
